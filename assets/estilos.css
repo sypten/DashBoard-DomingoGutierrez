@@ -1,0 +1,33 @@
+body {
+    font-family: serif;
+    /* background-color: black; */
+}
+
+.titulos {
+    text-align:center;
+    flex: 1;
+}
+
+.divDer {
+    display: flex; 
+    flex:1;
+    background-color: rgba(255, 255, 128, .5);
+    border-radius: 10px 100px / 120px;
+    flex-direction: row
+}
+
+.divIzq {
+    display: flex; 
+    flex:1 50px;
+    background-color: rgba(255, 255, 128, .5);
+    border-radius: 10px 100px / 120px;
+    flex-direction: column;
+    padding:20px
+}
+
+.caja {
+    flex: 1;
+    padding: 20px;
+    border-radius: 10px;
+    height: auto;
+}
