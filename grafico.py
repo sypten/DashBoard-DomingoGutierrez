@@ -41,17 +41,17 @@ def hacerGrafico(fechAnalisis,seleccion,intervalo):
         'velasdown': '#EB6D88',
         'velasup': '#23A4F2',
         'fondograf': '#252138',
-        'fondotodo':'#2A263D',
-        'fondodiv':'3C3956'
+        'fondotodo':'#3C3956',
+        'fondodiv':'#3C3956'
     }
 
 
     #Creamos un grafico de velas con los datos recolectados
     figura = make_subplots(rows=2, cols=1, shared_xaxes=True, 
-                            vertical_spacing=0.1, 
+                            vertical_spacing=0.15, 
                             subplot_titles=(f"Evolución de {seleccion} en dólares", 
                                             'Volumen de transacciones'),
-                            row_width=[0.2, 0.7],
+                            row_width=[0.2, 0.7]
                         )
 
     #creamos las Velas
@@ -73,9 +73,9 @@ def hacerGrafico(fechAnalisis,seleccion,intervalo):
                                     ), row=1, col=1
                         )
 
-    añadirMA(monedas["MA99"],"#9A94B8")
-    añadirMA(monedas["MA25"],"#F1CB81")
-    añadirMA(monedas["MA7"],"#ED6F85")
+    añadirMA(monedas["MA99"],"#66FF00")
+    añadirMA(monedas["MA25"],"#FFF200")
+    añadirMA(monedas["MA7"],"#FF5454")
 
 
     #creamos un color para el volumen de las velas
@@ -87,9 +87,21 @@ def hacerGrafico(fechAnalisis,seleccion,intervalo):
                     marker_color=monedas['color'],
                     showlegend=False), row=2, col=1)
 
+
+    #cambia el color de la grilla
+    figura.update_xaxes(showgrid=True, gridwidth=1, gridcolor='#3C3956')
+    figura.update_yaxes(showgrid=True, gridwidth=1, gridcolor='#3C3956')
+
+    #cambiamos el tamaño de los Titulos
+    figura.update_annotations(font_size=26)
+
     #sacamos la barra de navegación que se encuentra debajo
-    figura.update_layout(xaxis_rangeslider_visible = False)
-                        #paper_bgcolor=colors['fondotodo'], #cambia el color del cuadro contenedor
+    figura.update_layout(font_color= '#FFFFFF',
+                         xaxis_rangeslider_visible = False, 
+                         paper_bgcolor=colores['fondotodo'],
+                         #title_font_size=8,
+                         plot_bgcolor='#9A94B8')
+                        #], #cambia el color del cuadro contenedor
                         #plot_bgcolor=colors['fondograf'] #cambia el color de lo mas peque
     
     return figura

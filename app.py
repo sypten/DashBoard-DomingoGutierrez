@@ -29,14 +29,12 @@ mercados=consultarMercados()
 #contenedor principal
 app.layout = html.Div([
 
-
-
     #Parte izquierda
     html.Div([
         html.Div([
             html.H1(id='nombreMoneda'),
             dcc.Dropdown(mercados['name'], 'BTC/USDT', id='monedaElegida',
-            clearable=False, style={'flex':1})
+            clearable=False)
         ]),
         
         
@@ -49,26 +47,52 @@ app.layout = html.Div([
                     type='text',
                     value='1',
                     id='cantidad',
-                    style={'max-width':'100%'}
-                ),style={'max-width':'10%', 'padding': '5px', 'margin':'10px',
-                    'align-content': 'center', "float": "left"}
+                    #Estilo del input
+                    style={'max-width':'20px',
+                            'margin':'50% 0'}
+
+                #Estilo del div contenedor de la entrada de Paridad
+                ),style={#'max-width':'10%', 
+                        #'flex':'1 10%',
+                        'padding': '5px', 
+                        'margin':'10px',
+                        'align-content': 'center',
+                        "float": "left"}
             ),
-            html.Div(id='paridad', style={'max-width':'70%', "float": "right"})
-        ]),
+
+            #Resultado de La conversión de Paridad
+            html.Div(id='paridad', 
+                style={'align-content': 'center',
+                        #'max-width':'70%', 
+                        'flex':'1 80%',
+                        "padding": '5px', 
+                        'margin':'10px 0', 
+                        "float": "right"})
+        
+        #Estilo del bloque de conversión de Paridad
+        ], style={'display': 'flex', 'flex-direction': 'colum'}),
+        #style={'diplay':'block', 'margin':'20px 0px'}),
 
         #calculadora
         html.Br(),
         html.Div([
             html.Div([
                 html.Label('Ingrese monto a convertir'),
-                dcc.Input(id='input-box', type='text'),
-                html.Button('Convertir', id='button-example-1')],
-            style={'flex':1,'flex-direction':'row'}),
+                dcc.Input(id='input-box', 
+                            type='text',
+                            placeholder='1',
+                            value='1')],
+            style={'flex':1}),#,'flex-direction':'row'}),
 
             html.Br(),
             html.Div([
                 html.Label('Seleccione moneda de Destino'),
-                dcc.Dropdown(mercados['name'], 'BTC/USDT', id='monedaDestino')
+                dcc.Dropdown(mercados['name'], 'BTC/USDT', id='monedaDestino'),
+                html.Br(),
+                html.Button('Convertir', id='button-example-1',
+
+                    style={'min-width':'100%'})
+            
             ],style={'flex':1,'flex-direction':'row'}),
 
             html.Br(),
@@ -97,12 +121,15 @@ app.layout = html.Div([
                 html.Label('Volumen en dólares'),
                 html.H1(id='volumenMoneda', className='titulos')
             ], className='caja')
-
+            
+            #estilo parte arriba derecha
             ], className='divDer'),
         
+        #Caja contenedora del gráfico
         html.Div(
-            dcc.Graph(id='figura'),
+            dcc.Graph(id='figura')
             )
+
         #estilo parte derecha  
         ], style={'flex':'1 75%'})
 
@@ -136,7 +163,7 @@ def graficoMoneda(moneda):
 def update_output_div(input_value):
     #devuelve el valor En USD de la moneda elegida
     precio=float(mercados[mercados.name==input_value]['price'].values)
-    return f'{precio} $'
+    return f'{precio:,.2f} $'
 
 
 # Nombre de la moneda elegida
@@ -157,13 +184,13 @@ def update_output_div(input_value):
 def update_output_div(input_value):
     #devuelve el valor En USDT de la moneda elegida
     volumen=float(mercados[mercados.name==input_value]['volumeUsd24h'].values)
-    return f'{volumen:.0f} $'
+    return f'{volumen:,.2f} $'
 
 
 # Paridad Moneda Seleccionada
 @app.callback(
     Output(component_id='paridad', component_property='children'),
-    State(component_id='monedaElegida', component_property='value'),
+    Input(component_id='monedaElegida', component_property='value'),
     Input('cantidad', 'value')
 )
 def update_output_div(moneda, cantidad = 1):
@@ -171,7 +198,12 @@ def update_output_div(moneda, cantidad = 1):
     cantidad=float(cantidad)
     precio=float(mercados[mercados.name==moneda]['price'].values)
     salida=cantidad/precio
-    return f'dólar/es son {salida:.10f} {moneda[:-5]}'
+    if cantidad==1:
+        return f'dólar son {salida:.10f} {moneda[:-5]}'
+    elif cantidad>1:
+        return f'dólares son {salida:.10f} {moneda[:-5]}'
+    else:
+        return 'no ingresó una cantidad válida'
 
 
 # Calculadora
@@ -190,7 +222,7 @@ def ActualizarBoton(n_clicks, desde, hasta, multiplicador=1):
         entrada=float(mercados[mercados.name==desde]['price'].values)
         destino=float(mercados[mercados.name==hasta]['price'].values)
         salida=entrada/destino
-        return f'{multiplicador} {desde} vale {multiplicador*salida:.3f} {hasta}'
+        return f'{multiplicador} {desde} valen {multiplicador*salida:.10f} {hasta}'
 
 
 if __name__ == '__main__':

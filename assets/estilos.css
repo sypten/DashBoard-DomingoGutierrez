@@ -1,6 +1,6 @@
 body {
     font-family: serif;
-    /* background-color: black; */
+    background-color: #3C3956;
 }
 
 .titulos {
@@ -11,18 +11,20 @@ body {
 .divDer {
     display: flex; 
     flex:1;
-    background-color: rgba(255, 255, 128, .5);
+    background-color: #9A94B8;
     border-radius: 10px 100px / 120px;
-    flex-direction: row
+    flex-direction: row;
+    z-index: 4
 }
 
 .divIzq {
     display: flex; 
-    flex:1 50px;
-    background-color: rgba(255, 255, 128, .5);
+    flex:1 25px;
+    background-color: #9A94B8;
     border-radius: 10px 100px / 120px;
     flex-direction: column;
-    padding:20px
+    padding:20px;
+    z-index: 2
 }
 
 .caja {
