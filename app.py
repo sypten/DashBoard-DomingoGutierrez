@@ -148,7 +148,7 @@ app.layout = html.Div([
     Output('figura','figure'),
     Input('monedaElegida','value')
 )
-def graficoMoneda(moneda):
+def grafico_moneda(moneda):
     #establecemos una fecha a 4 meses
     fechanalisis=datetime.now()-timedelta(120)
     grafico=hacerGrafico(fechanalisis,moneda,86400)
@@ -160,7 +160,7 @@ def graficoMoneda(moneda):
     Output(component_id='precioMoneda', component_property='children'),
     Input(component_id='monedaElegida', component_property='value')
 )
-def update_output_div(input_value):
+def actualizar_h1_moneda(input_value):
     #devuelve el valor En USD de la moneda elegida
     precio=float(mercados[mercados.name==input_value]['price'].values)
     return f'{precio:,.2f} $'
@@ -171,7 +171,7 @@ def update_output_div(input_value):
     Output(component_id='nombreMoneda', component_property='children'),
     Input(component_id='monedaElegida', component_property='value')
 )
-def update_output_div(input_value):
+def actualizar_titulo_moneda(input_value):
     #devuelve el valor En USD de la moneda elegida
     return input_value
 
@@ -181,7 +181,7 @@ def update_output_div(input_value):
     Output(component_id='volumenMoneda', component_property='children'),
     Input(component_id='monedaElegida', component_property='value')
 )
-def update_output_div(input_value):
+def actualizar_h1_volumen(input_value):
     #devuelve el valor En USDT de la moneda elegida
     volumen=float(mercados[mercados.name==input_value]['volumeUsd24h'].values)
     return f'{volumen:,.2f} $'
@@ -193,7 +193,7 @@ def update_output_div(input_value):
     Input(component_id='monedaElegida', component_property='value'),
     Input('cantidad', 'value')
 )
-def update_output_div(moneda, cantidad = 1):
+def paridad_moneda(moneda, cantidad = 1):
     #devuelve el valor En USDT de la moneda elegida
     cantidad=float(cantidad)
     precio=float(mercados[mercados.name==moneda]['price'].values)
@@ -214,7 +214,7 @@ def update_output_div(moneda, cantidad = 1):
     State('monedaDestino', 'value'),
     State('input-box', 'value')
 )
-def ActualizarBoton(n_clicks, desde, hasta, multiplicador=1):
+def actualizar_boton(n_clicks, desde, hasta, multiplicador=1):
 
     if 'button-example-1'== ctx.triggered_id:
     #conseguimos el precio de la moneda ingresada
